@@ -1,0 +1,26 @@
+% ==============================================================================
+% CAPÍTULO 4 - REVISÃO BIBLIOGRÁFICA
+% ==============================================================================
+
+\chapter{REVISÃO BIBLIOGRÁFICA}
+\label{cap:revisao-bibliografica}
+
+Este capítulo apresenta os fundamentos teóricos e as tecnologias que serviram de base para o desenvolvimento do projeto Oficina Master. A compreensão desses conceitos é fundamental para justificar as escolhas arquiteturais do sistema, focando em escalabilidade, isolamento de dados e reatividade.
+
+\section{Arquitetura SaaS e Padrões de Multi-tenancy}
+
+O modelo \textit{Software as a Service} (SaaS) representa uma mudança de paradigma na entrega de software, onde a aplicação e seus dados são hospedados centralmente. Segundo \citeonline{bezemer2010}, a característica central do SaaS é o \textit{multi-tenancy}, que permite que uma única instância lógica da aplicação atenda a múltiplos clientes (\textit{tenants}).
+
+No projeto Oficina Master, adotou-se o padrão de \textbf{Banco de Dados Isolado} (\textit{Database-per-tenant}). Esta abordagem, embora exija uma gestão de infraestrutura mais complexa, oferece o maior nível de segurança e isolamento de dados. De acordo com \citeonline{krebs2012}, esse padrão facilita processos de \textit{backup} e \textit{restore} individuais, além de evitar o problema do "vizinho barulhento" (\textit{noisy neighbor}), onde a carga de um cliente afeta o desempenho dos demais.
+
+\section{Ecossistema Laravel e Injeção de Dependências}
+
+O Laravel 12 foi selecionado como motor de \textit{backend}. Para além do padrão MVC, o framework destaca-se pelo seu robusto \textit{Service Container}. Segundo \citeonline{otwell2024}, a Injeção de Dependência (DI) é um padrão de projeto que permite a inversão de controle, facilitando o desacoplamento e a testabilidade do código. No Oficina Master, o uso de \textit{Service Providers} foi essencial para gerenciar dinamicamente as conexões com os diferentes bancos de dados dos \textit{tenants} de forma transparente para as camadas de lógica de negócio.
+
+\section{Frontend Reativo com Vue.js 3 e Composition API}
+
+A modernização do \textit{frontend} baseou-se no Vue.js 3, utilizando a \textit{Composition API}. Esta abordagem permite uma organização de código mais lógica e reutilizável em comparação com a \textit{Options API}. A reatividade do Vue, baseada em \textit{Proxies} de JavaScript, garante que a interface reflita o estado do sistema em tempo real sem a necessidade de manipulação direta do DOM. Para o gerenciamento de estado global, a biblioteca Pinia foi empregada, seguindo o padrão \textit{Store}, que centraliza a lógica de dados e garante a previsibilidade das mutações de estado \cite{you2024}.
+
+\section{Segurança em APIs REST e Protocolo Sanctum}
+
+A exposição de recursos administrativos exige protocolos rigorosos de segurança. O sistema utiliza os princípios da arquitetura REST (\textit{Representational State Transfer}), empregando métodos HTTP sem estado (\textit{stateless}). A autenticação é gerida pelo Laravel Sanctum, que provê um sistema de autenticação leve para SPAs. Segundo \citeonline{fielding2000}, a separação clara entre cliente e servidor, mediada por uma interface uniforme, é um dos pilares para a construção de sistemas distribuídos escaláveis e seguros.

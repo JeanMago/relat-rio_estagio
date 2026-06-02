@@ -1,0 +1,44 @@
+% ==============================================================================
+% CAPÍTULO 5 - DESENVOLVIMENTO
+% ==============================================================================
+
+\chapter{Desenvolvimento}
+\label{cap:desenvolvimento}
+
+Neste capítulo, detalha-se a implementação técnica do Oficina Master, explorando a engenharia de software aplicada para resolver os desafios de um ecossistema \textit{multi-tenant}.
+
+\section{Arquitetura do Sistema e Estratégia de Isolamento}
+
+O núcleo do Oficina Master é a sua capacidade de gerenciar contextos dinâmicos. A infraestrutura foi desenhada para que cada \textit{tenant} possua uma instância de banco de dados independente, garantindo que falhas ou corrupções em um ambiente não se propaguem para outros. A comunicação entre o Hub Master e os \textit{tenants} é autenticada via tokens técnicos criptografados utilizando o algoritmo AES-256-CBC, nativo do sistema de criptografia do Laravel.
+
+\section{Mecanismo de Alternância Dinâmica de Conexão}
+
+Um dos componentes mais críticos desenvolvidos foi o \textit{Tenant Switcher}. Diferente de aplicações convencionais, o Master precisa realizar operações de leitura e escrita em centenas de bancos de dados diferentes. O trecho de código abaixo detalha o processo de purga e reconfiguração de conexão, essencial para evitar vazamento de estado entre requisições:
+
+\begin{lstlisting}[language=PHP, caption={Gestão de ciclo de vida de conexões dinâmicas}, label={lst:dynamic-conn}]
+public function switchConnection(Empresa $empresa) {
+    // Define dinamicamente o nome do banco no array de configuração em runtime
+    config(['database.connections.tenant.database' => $empresa->db_name]);
+    
+    // Purga a conexão anterior do pool do framework para forçar a nova configuração
+    DB::purge('tenant');
+    
+    // Reconecta utilizando as novas credenciais
+    DB::reconnect('tenant');
+    
+    // Registra o contexto atual para fins de auditoria
+    Log::info("Contexto de banco alterado para: {$empresa->db_name}");
+}
+\end{lstlisting}
+
+\section{Sincronização Assíncrona de Dados Tributários}
+
+A propagação da tabela IBPT envolve o processamento de milhares de registros. Para evitar o \textit{timeout} de requisições HTTP, a lógica foi implementada utilizando o sistema de filas (\textit{Queues}) do Laravel. O processo é segmentado em \textit{chunks} de 1.000 registros, processados em segundo plano. Isso garante que a interface do usuário permaneça responsiva enquanto a sincronização ocorre de forma resiliente.
+
+\section{Segurança de Webhooks e Idempotência}
+
+A integração com o Mercado Pago exige cuidados especiais com a segurança dos \textit{endpoints} públicos. Implementou-se uma camada de validação de assinatura para garantir que as notificações originam-se de fato do provedor de pagamento. Além disso, aplicou-se o princípio da **idempotência**: cada transação possui um identificador único armazenado, impedindo que a mesma confirmação de pagamento seja processada múltiplas vezes em caso de retentativas automáticas do \textit{webhook}.
+
+\section{Dashboard Administrativo e Monitoramento}
+
+No \textit{frontend}, utilizou-se o Vue.js com o padrão \textit{Store} do Pinia para gerenciar o estado global da sessão. O dashboard foi construído para fornecer uma visão em tempo real da "saúde" do ecossistema. Foram implementados gráficos de telemetria que consultam o \textit{backend} para retornar métricas de uso de disco e quantidade de transações por período, permitindo à equipe de suporte agir proativamente antes que limites de infraestrutura sejam atingidos.
