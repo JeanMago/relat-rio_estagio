@@ -1,0 +1,89 @@
+\changetocdepth {4}
+\babel@toc {brazil}{}\relax 
+\babel@toc {brazil}{}\relax 
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{Introdução}}{9}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Justificativa}{10}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Objetivos}{10}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Objetivo Geral}{10}{subsection.1.2.1}%
+\contentsline {section}{\numberline {1.3}Objetivos}{11}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Objetivo Geral}{11}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Objetivos Específicos}{11}{subsection.1.3.2}%
+\contentsline {section}{\numberline {1.4}Estrutura do Trabalho}{11}{section.1.4}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{Apresentação da Empresa}}{12}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Histórico e Evolução Estratégica}{12}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Missão, Visão e Valores Organizacionais}{12}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Estrutura e Ecossistema Tecnológico}{13}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Arquitetura de Produto e Filosofia \textit {Multi-tenancy}}{13}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Stack Tecnológica e Ferramental de Desenvolvimento}{13}{subsection.2.3.2}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{Metodologia}}{15}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Definição de Escopo e Visão de Produto}{15}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Fluxo de Desenvolvimento Orientado a \textit {Features}}{15}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Controle de Versão com \textit {Git}}{16}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Validação e Alinhamento Contínuo}{16}{section.3.4}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{REVISÃO BIBLIOGRÁFICA}}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Arquitetura \textit {SaaS} e Paradigmas de \textit {Multi-tenancy}}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}O Ecossistema \textit {Laravel}: \textit {Service Container} e Injeção de Dependências}{18}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}\textit {Service Layer Pattern} e os Princípios de \textit {Clean Architecture}}{19}{subsection.4.2.1}%
+\contentsline {section}{\numberline {4.3}\textit {Frontend} Moderno: Reatividade, \textit {SPA} e Gestão de Estado}{19}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}\textit {Pinia}: O Novo Padrão de Gestão de Estado Reativo}{19}{subsection.4.3.1}%
+\contentsline {section}{\numberline {4.4}Segurança em \textit {APIs} \textit {REST} e Protocolos de Autenticação}{19}{section.4.4}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{Implementação e Orquestração do Ecossistema Oficina Master}}{21}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Macro Arquitetura e Estratégia de Isolamento de Dados}{21}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Organização do Projeto e Padrões de Implementação}{22}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Estrutura de Pastas e Namespaces}{22}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Camada de Modelagem: Eloquent e Relacionamentos de Domínio}{23}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}Provisionamento Automatizado e Orquestração de Instâncias}{23}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}TenantDatabaseService: Motor de Provisionamento e Estratégia de Inicialização}{24}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Mecanismo de Rollback e Garantias de Consistência}{25}{subsection.5.3.2}%
+\contentsline {section}{\numberline {5.4}Gestão Centralizada e Hub de Bancos de Dados}{25}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Tenant Switching: Alternância Dinâmica de Contexto de Conexão}{25}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Telemetria e Observabilidade das Instâncias}{26}{subsection.5.4.2}%
+\contentsline {section}{\numberline {5.5}Administração de Planos e Licenciamento Flexível}{27}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Estrutura de Planos e Configuração de Módulos}{27}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Ciclo de Vida do Licenciamento e Controle de Acesso}{28}{subsection.5.5.2}%
+\contentsline {section}{\numberline {5.6}Dashboard Administrativo e Interface Reativa}{28}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}KPIs e Métricas Agregadas por Domínio}{28}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Arquitetura Reativa da Interface e Estratégia de Atualização}{29}{subsection.5.6.2}%
+\contentsline {section}{\numberline {5.7}Demonstração das Interfaces de Gestão e Evidências}{29}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Acesso e Gestão de Usuários}{30}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}Gestão de Tenants, Planos e Licenciamento}{30}{subsection.5.7.2}%
+\contentsline {subsection}{\numberline {5.7.3}Evidências de Desenvolvimento e Controle de Versão}{30}{subsection.5.7.3}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{Considerações Finais}}{34}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Análise Crítica das Decisões Arquiteturais}{34}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Avaliação do Impacto no Ecossistema FK Oficina}{34}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Reflexão sobre o Crescimento Profissional}{35}{section.6.3}%
+\vspace {\cftbeforechapterskip }
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\contentsline {chapter}{\MakeTextUppercase []{Refer\^encias}}{36}{section*.28}%
+\renewcommand *{\cftappendixname }{AP\^ENDICE \space }
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\cftinsert {A}
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Diagramas e Fluxos Técnicos Avançados}}{37}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Pipeline de Requisição e Middleware de Contexto}{37}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Arquitetura de Estado no Frontend (Pinia Stores)}{37}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Estrutura de Diretórios do Projeto (Backend)}{37}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Fluxo de Trabalho GitFlow}{38}{section.A.4}%
+\cftinsert {AAA}
+\renewcommand *{\cftappendixname }{ANEXO \space }
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\cftinsert {A}
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Documentação de Referências Técnicas}}{39}{appendix.anexochapback.1}%
+\contentsline {section}{\numberline {A.1}Dicionário de Dados do Hub Master}{39}{section.anexochapback.1.1}%
+\contentsline {subsection}{\numberline {A.1.1}Entidade: Tenant (Configurações de Instância)}{39}{subsection.anexochapback.1.1.1}%
+\contentsline {section}{\numberline {A.2}Especificação Completa de Endpoints (API Master)}{39}{section.anexochapback.1.2}%
+\contentsline {subsection}{\numberline {A.2.1}Autenticação e Segurança}{39}{subsection.anexochapback.1.2.1}%
+\contentsline {subsection}{\numberline {A.2.2}Gestão de Tenants e Infraestrutura}{39}{subsection.anexochapback.1.2.2}%
+\contentsline {section}{\numberline {A.3}Padrão de Resposta JSON (Standard API Response)}{40}{section.anexochapback.1.3}%
+\contentsline {section}{\numberline {A.4}Consultas de Telemetria SQL (Referência)}{40}{section.anexochapback.1.4}%

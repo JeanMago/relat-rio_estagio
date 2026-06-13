@@ -1,0 +1,71 @@
+% ==============================================================================
+% CAPÍTULO 1 - INTRODUÇÃO
+% ==============================================================================
+
+\chapter{Introdução}
+\label{cap:introducao}
+
+A ascensão do modelo de entrega de software conhecido como \textit{Software as a Service} (\textit{SaaS}) transformou a forma como empresas de pequeno e médio porte consomem tecnologia. No cenário atual, a digitalização deixou de ser apenas uma ferramenta de suporte para se tornar parte central da prestação de serviços técnicos. Em setores que variam desde oficinas mecânicas até laboratórios especializados em microeletrônica, a capacidade de gerenciar dados de forma precisa e segura é um fator relevante para a sustentabilidade operacional.
+
+No Brasil, esse setor enfrenta desafios específicos, como a volatilidade das regras tributárias e a necessidade de disponibilidade em ambientes muitas vezes sem infraestrutura de conectividade estável. A FK Oficina, inserida neste contexto, atua como provedora de soluções digitais integradas voltadas a mitigar essas complexidades. O ecossistema oferecido pela empresa busca resolver problemas comuns nesses setores, como a falta de rastreabilidade em ordens de serviço, a ineficiência no controle de estoques de peças e a dificuldade de manter a conformidade com o sistema tributário nacional.
+
+Contudo, o crescimento da base de usuários trouxe desafios de infraestrutura relevantes. À medida que o número de \textit{tenants} (instâncias isoladas de clientes) aumentou, a manutenção manual ou semi-automatizada tornou-se um risco operacional. Cada novo cliente representa não apenas uma nova base de dados isolada, necessária para garantir a segurança e a privacidade das informações, mas também um novo ponto de manutenção que exige atualizações de esquema, sincronização de dados tributários e monitoramento de performance. O esforço para manter essa infraestrutura de forma individualizada passou a crescer proporcionalmente ao número de clientes, criando um gargalo técnico que limitava a agilidade no desenvolvimento de novas funcionalidades.
+
+Surge, então, a necessidade do projeto \textbf{Oficina Master}. Concebido como um \textit{hub} administrativo centralizado, o Oficina Master atua como a camada de orquestração de todo o ecossistema \textit{SaaS} da FK Oficina. Ele não é apenas uma interface de visualização, mas um sistema de automação projetado para gerenciar o ciclo de vida de cada \textit{tenant}, desde o provisionamento inicial de recursos até a gestão de licenciamento e conformidade fiscal. Este projeto representa a transição da organização para um modelo de gestão de infraestrutura mais estruturado, reduzindo a carga operacional da equipe técnica.
+
+A implementação deste \textit{hub} centralizado permite uma visão unificada sobre a saúde técnica e financeira da rede de clientes. Aspectos como a integridade das transações de pagamento, a validade das licenças de uso e a precisão das alíquotas de impostos (via integração IBPT) passam a ser tratados de forma automatizada. Isso permite que a FK Oficina continue sua expansão sem comprometer a qualidade do serviço ou a segurança dos dados de seus clientes.
+
+%-------------------------------------------------
+% Justificativa
+%-------------------------------------------------
+\section{Justificativa}
+\label{sec:justificativa}
+
+A relevância deste trabalho fundamenta-se na necessidade de escalabilidade, segurança e automação em ambientes de software modernos. Antes da concepção do Oficina Master, rotinas como a migração de esquemas de banco de dados e a atualização das tabelas de NCM (Nomenclatura Comum do Mercosul) eram processos fragmentados e suscetíveis a falhas. A justificativa técnica reside na necessidade de eliminar esses gargalos, permitindo que alterações estruturais que antes demandavam intervenção manual sejam executadas de forma centralizada, com rastreabilidade e mecanismos de \textit{rollback}.
+
+Do ponto de vista estratégico, a justificativa vincula-se à viabilidade do modelo de negócio \textit{SaaS} da FK Oficina. A automação do ciclo de licenciamento permite que a gestão dos clientes ocorra de forma autônoma. Isso reduz a necessidade de intervenção humana em processos administrativos e contribui para um fluxo de trabalho mais previsível e para a redução de falhas no processo de renovação.
+
+Sob a ótica acadêmica e profissional, o desenvolvimento deste projeto proporcionou contato com padrões de projeto e arquiteturas de sistemas distribuídos. O desafio de implementar um mecanismo de alternância dinâmica de contexto de banco de dados (\textit{Tenant Switcher}) no \textit{framework Laravel} 12 permitiu a aplicação prática de conceitos como inversão de controle (\textit{IoC}), injeção de dependências (\textit{DI}) e segurança em nível de aplicação. Este trabalho serve como estudo de caso sobre como fundamentos da Ciência da Computação podem ser aplicados a problemas reais de concorrência de dados, segurança da informação em conformidade com a LGPD e disponibilidade em ambientes de nuvem.
+
+%-------------------------------------------------
+% Objetivos
+%-------------------------------------------------
+\section{Objetivos}
+\label{sec:objetivos}
+
+\subsection{Objetivo Geral}
+\label{subsec:objective-geral}
+
+Este relatório documenta as atividades realizadas durante o estágio supervisionado focado no desenvolvimento do projeto Oficina Master, um \textit{hub} administrativo centralizado para um ecossistema de gestão de oficinas mecânicas (\textit{SaaS}). O projeto teve como objetivo principal solucionar a complexidade da gestão manual de múltiplos \textit{tenants} e instâncias de banco de dados, além de centralizar o controle de licenciamento. A solução foi desenvolvida utilizando o \textit{framework} \textit{Laravel} 12 no \textit{backend}, integrando-se via \textit{API REST} com um \textit{frontend} moderno construído em \textit{Vue.js} 3 com \textit{Pinia}. Entre as funcionalidades implementadas, destacam-se a gestão automatizada de migrações de banco de dados, o provisionamento de novas instâncias e um \textit{dashboard} administrativo para monitoramento do ecossistema.
+
+%-------------------------------------------------
+% Objetivos
+%-------------------------------------------------
+\section{Objetivos}
+\label{sec:objetivos}
+
+\subsection{Objetivo Geral}
+\label{subsec:objective-geral}
+
+Projetar, desenvolver e implantar o \textit{Oficina Master}, um \textit{hub} administrativo centralizado para a orquestração de um ecossistema SaaS multi-tenant, com foco na automação da gestão de instâncias e no monitoramento da integridade do ecossistema da FK Oficina.
+
+\subsection{Objetivos Específicos}
+\label{subsec:objetivos-especificos}
+
+Para atingir a meta proposta, o projeto foi subdividido nos seguintes objetivos específicos:
+
+\begin{alineas}
+    \item Desenvolver uma API RESTful utilizando o \textit{framework} Laravel 12, adotando tipagem estrita, arquitetura em camadas de serviço (\textit{Service Layer}) e princípios SOLID;
+    \item Construir uma interface administrativa com Vue.js 3, empregando a \textit{Composition API} e Pinia para gerenciamento de estado global;
+    \item Implementar um mecanismo de \textit{Tenant Switching} que permita a alternância dinâmica entre bancos de dados isolados em tempo de execução, viabilizando operações de manutenção e consultas sem impacto aos demais clientes;
+    \item Desenvolver rotinas para o provisionamento automatizado de novas empresas, incluindo a criação de banco de dados e injeção de configurações iniciais;
+    \item Estabelecer um painel de monitoramento consolidado para acompanhamento de logs de acesso administrativo e métricas de saúde dos serviços.
+\end{alineas}
+
+%-------------------------------------------------
+% Estrutura do Trabalho
+%-------------------------------------------------
+\section{Estrutura do Trabalho}
+\label{sec:estrutura}
+
+Este relatório está organizado para guiar o leitor pelas principais fases do projeto. O \autoref{ch:apresentacao-empresa} contextualiza a FK Oficina, sua trajetória e posicionamento no mercado. O \autoref{cap:metodologia} descreve as práticas de desenvolvimento, ferramentas de controle de versão e o ambiente técnico empregado. O \autoref{cap:revisao-bibliografica} apresenta a fundamentação teórica sobre arquitetura SaaS, padrões de projeto e as tecnologias utilizadas. O \autoref{cap:desenvolvimento} expõe a implementação técnica, os desafios encontrados e as soluções adotadas. Por fim, o \autoref{cap:conclusao} sintetiza as considerações finais, avalia os resultados frente aos objetivos e aponta possíveis evoluções do sistema.

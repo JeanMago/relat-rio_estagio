@@ -1,0 +1,40 @@
+% ==============================================================================
+% CAPÍTULO 4 - REVISÃO BIBLIOGRÁFICA
+% ==============================================================================
+
+\chapter{REVISÃO BIBLIOGRÁFICA}
+\label{cap:revisao-bibliografica}
+
+Este capítulo apresenta uma fundamentação teórica densa sobre as arquiteturas, padrões de projeto e tecnologias de vanguarda que serviram de alicerce para a concepção e o desenvolvimento do Oficina Master. A compreensão profunda desses conceitos é imperativa para justificar as escolhas arquiteturais do sistema, com foco inabalável em escalabilidade, isolamento rigoroso de dados e reatividade de interface. Conforme postulado por \citeonline{pressman}, uma base teórica sólida e bem articulada é o elemento que distingue o desenvolvimento assistemático da verdadeira engenharia de software profissional e resiliente.
+
+\section{Arquitetura \textit{SaaS} e Paradigmas de \textit{Multi-tenancy}}
+
+O modelo \textit{Software as a Service} (\textit{SaaS}) representa uma mudança de paradigma fundamental na entrega de software corporativo, onde a aplicação e seus dados associados são gerenciados e hospedados centralmente. De acordo com \citeonline{bezemer2010}, a espinha dorsal técnica do \textit{SaaS} é o \textit{multi-tenancy}, uma abordagem arquitetural que permite que uma única instância lógica da aplicação atenda de forma segura a múltiplos clientes (\textit{tenants}).
+
+No âmbito do projeto Oficina Master, adotou-se o padrão de excelência de \textbf{Banco de Dados Isolado} (\textit{database-per-tenant}). Esta abordagem, embora imponha uma complexidade superior na orquestração de infraestrutura e na execução de migrações de esquema, oferece o mais alto nível de segurança, privacidade e isolamento de falhas. Segundo \citeonline{krebs2012}, esse padrão é superior ao compartilhamento de tabelas, pois facilita processos granulares de \textit{backup} e \textit{restore} por cliente, além de mitigar definitivamente o problema do "vizinho barulhento" (\textit{noisy neighbor}), onde o pico de carga de um locatário poderia comprometer a performance dos demais. Esta estratégia é, ademais, um pilar fundamental para a conformidade técnica com a Lei Geral de Proteção de Dados (LGPD), garantindo o isolamento físico-lógico das bases de dados.
+
+\section{O Ecossistema \textit{Laravel}: \textit{Service Container} e Injeção de Dependências}
+
+O \textit{Laravel} 12 foi selecionado como o motor de \textit{backend} devido à sua sofisticação arquitetural e maturidade de ecossistema. Para além do tradicional padrão \textit{MVC}, o \textit{framework} destaca-se pela implementação de um robusto e flexível \textit{Service Container}. Segundo \citeonline{otwell2024}, a Injeção de Dependência (\textit{DI}) é um padrão de projeto estrutural que permite a inversão de controle (\textit{IoC}), promovendo o desacoplamento entre as classes e elevando substancialmente a testabilidade e a flexibilidade do código-fonte.
+
+No desenvolvimento do Oficina Master, a utilização estratégica de \textit{Service Providers} foi vital para orquestrar dinamicamente as conexões com os bancos de dados dos \textit{tenants}. Esta camada de abstração permite que a aplicação alterne contextos de conexão de forma transparente para a camada de lógica de negócio, seguindo os princípios de \textit{Separation of Concerns} (\textit{SoC}).
+
+\subsection{\textit{Service Layer Pattern} e os Princípios de \textit{Clean Architecture}}
+
+Para mitigar a complexidade em um sistema que exige múltiplas integrações e regras de negócio densas, adotou-se o \textit{Service Layer Pattern}. Conforme definido por \citeonline{fowler2002}, a Camada de Serviço estabelece uma fronteira clara para a aplicação, encapsulando a orquestração de lógica de negócio e regras de domínio em classes de serviço dedicadas e reutilizáveis. 
+
+Esta prática permitiu que os controladores da \textit{API} permanecessem concisos e focados estritamente na gestão de entradas e saídas HTTP (\textit{Lean Controllers}), delegando a complexidade de regras de negócio e orquestração de contexto a serviços especializados. Esta abordagem converge diretamente com os princípios de \textit{Clean Architecture} defendidos por \citeonline{martin2017}, onde as regras de negócio centrais são mantidas isoladas de detalhes externos, como drivers de banco de dados ou interfaces de \textit{API}.
+
+\section{\textit{Frontend} Moderno: Reatividade, \textit{SPA} e Gestão de Estado}
+
+A modernização da interface administrativa fundamentou-se no uso do \textbf{Vue.js 3}, operando sobre a \textbf{Composition API}. Esta abordagem permite uma organização de lógica muito mais modular, tipada e reutilizável quando comparada à tradicional \textit{Options API}. A reatividade do Vue, baseada no uso de \textit{Proxies} nativos do JavaScript moderno, garante que o estado da interface reflita as mutações de dados em tempo real, sem a necessidade de manipulação imperativa do DOM.
+
+\subsection{\textit{Pinia}: O Novo Padrão de Gestão de Estado Reativo}
+
+Para o gerenciamento de estado global e persistência de dados entre rotas, empregou-se a biblioteca \textbf{Pinia}. Segundo \citeonline{you2024}, o \textit{Pinia} oferece um sistema de tipos robusto e uma arquitetura baseada em \textit{stores} modulares que simplificam o fluxo de dados em \textit{Single Page Applications} (\textit{SPA}) de grande escala. No Oficina Master, o \textit{Pinia} foi essencial para sincronizar informações críticas, como o contexto do \textit{tenant} selecionado e o status de autenticação do usuário Master, de forma previsível e performática.
+
+\section{Segurança em \textit{APIs} \textit{REST} e Protocolos de Autenticação}
+
+A exposição de recursos de gestão centralizada exige protocolos de segurança de nível bancário. O Oficina Master adota integralmente os princípios da arquitetura \textbf{REST} (\textit{Representational State Transfer}), utilizando métodos HTTP sem estado (\textit{stateless}). A autenticação e a gestão de sessões administrativas são providas pelo \textbf{Laravel Sanctum}, que oferece um sistema de tokens de \textit{API} leve, porém extremamente seguro para \textit{SPAs}.
+
+A arquitetura de segurança é complementada pelo uso de \textbf{Middlewares} customizados, que atuam como interceptadores no pipeline de requisições. Estes componentes verificam não apenas a validade criptográfica do \textit{Bearer Token}, mas também realizam verificações de autorização baseadas em papéis (\textit{Role-Based Access Control - RBAC}), garantindo que apenas usuários com as devidas permissões possam acessar rotas sensíveis de infraestrutura. Conforme postulado por \citeonline{gamma1995}, o uso de padrões de comportamento como o \textit{Chain of Responsibility} — a base técnica dos \textit{middlewares} — permite processar e validar requisições de forma modular, escalável e segura.

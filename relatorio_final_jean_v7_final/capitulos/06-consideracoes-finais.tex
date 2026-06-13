@@ -1,0 +1,29 @@
+% ==============================================================================
+% CAPÍTULO 6 - CONSIDERAÇÕES FINAIS
+% ==============================================================================
+
+\chapter{Considerações Finais}
+\label{cap:conclusao}
+
+A conclusão deste estágio supervisionado na FK Oficina marca o encerramento de um ciclo de intenso aprendizado técnico e amadurecimento profissional. O desenvolvimento do projeto Oficina Master permitiu a transposição de conceitos teóricos fundamentais da Ciência da Computação para uma solução de engenharia de software de alta complexidade, operando em um cenário real de \textit{SaaS} multi-tenant.
+
+\section{Análise Crítica das Decisões Arquiteturais}
+
+A escolha pelo modelo de isolamento de banco de dados (\textit{database-per-tenant}) provou-se acertada, oferecendo o equilíbrio ideal entre segurança da informação e flexibilidade operacional. Embora essa decisão tenha imposto desafios significativos na orquestração de conexões dinâmicas, o desenvolvimento do \texttt{TenantDatabaseService} e do mecanismo de \textit{Tenant Switching} mitigou com sucesso essa complexidade. A automação desses processos eliminou intervenções manuais propensas a erros, permitindo que a infraestrutura escale de forma linear com o crescimento da base de clientes.
+
+A utilização da \textit{Service Layer} em conjunto com \textit{Lean Controllers} no \textit{backend} Laravel 12 garantiu uma base de código modular e de fácil manutenção. No \textit{frontend}, a adoção do Vue.js 3 com \textit{Composition API} e \textit{Pinia} proporcionou uma interface reativa e performática, essencial para uma ferramenta de gestão administrativa que demanda alta densidade de dados e respostas instantâneas.
+
+\section{Avaliação do Impacto no Ecossistema FK Oficina}
+
+O Oficina Master deixou de ser um projeto de desenvolvimento para tornar-se o núcleo operacional da FK Oficina. Os resultados tangíveis incluem:
+\begin{itemize}
+    \item \textbf{Agilidade no Provisionamento:} A redução do tempo de configuração de novos clientes de horas para poucos minutos, através da automação total da criação e inicialização de bancos de dados;
+    \item \textbf{Visibilidade Estratégica:} A centralização de indicadores de saúde técnica e status de licenciamento em um \textit{Dashboard} consolidado, permitindo uma gestão proativa e baseada em dados reais do ecossistema;
+    \item \textbf{Flexibilidade Comercial:} A capacidade de gerenciar planos e módulos de forma granular, facilitando a criação de novas ofertas de mercado sem necessidade de alterações no código-fonte.
+\end{itemize}
+
+\section{Reflexão sobre o Crescimento Profissional}
+
+A imersão no cotidiano de uma \textit{software house} focada em produtos de missão crítica foi fundamental para consolidar competências em injeção de dependências, padrões de projeto, segurança em APIs REST e gestão de infraestrutura em nuvem. O desafio de garantir a integridade de dados em um ambiente distribuído e a responsabilidade de desenvolver ferramentas que sustentam a operação de outras empresas foram os catalisadores de um salto qualitativo na minha formação como Cientista da Computação.
+
+Para evoluções futuras, vislumbra-se a implementação de camadas de telemetria preditiva e a migração de rotinas pesadas para arquiteturas \textit{serverless}, buscando otimização contínua de custos e performance. Em suma, o estágio cumpriu integralmente seu papel de integrar academia e mercado, resultando em uma solução robusta que agrega valor tecnológico e estratégico para a organização.

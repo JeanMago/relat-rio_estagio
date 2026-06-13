@@ -1,0 +1,75 @@
+% ANEXO A - Documentação de APIs e Referências Técnicas
+\chapter{Documentação de Referências Técnicas}
+\label{anexo:a}
+
+Este anexo apresenta detalhes técnicos exaustivos sobre as interfaces de integração, padrões de resposta e estruturas de dados do ecossistema Oficina Master.
+
+\section{Dicionário de Dados do Hub Master}
+
+Abaixo detalham-se as propriedades das entidades centrais de orquestração.
+
+\subsection{Entidade: Tenant (Configurações de Instância)}
+\begin{longtable}{lll}
+    \toprule
+    \textbf{Campo} & \textbf{Tipo} & \textbf{Descrição} \\
+    \midrule
+    \texttt{uuid} & char(36) & Identificador único global (Primary Key). \\
+    \texttt{name} & varchar(255) & Nome fantasia do tenant no sistema. \\
+    \texttt{database} & varchar(60) & Nome lógico do esquema no servidor MySQL. \\
+    \texttt{url\_banco} & varchar(255) & Host/IP do servidor de banco de dados. \\
+    \texttt{username} & varchar(60) & Usuário com permissões de owner no banco. \\
+    \texttt{password} & text & Senha criptografada (AES-256). \\
+    \texttt{status} & enum & Estado operacional (ativo, bloqueado, desativado). \\
+    \texttt{licenca\_valida\_ate} & date & Cache da data de expiração da licença atual. \\
+    \bottomrule
+\end{longtable}
+
+\section{Especificação Completa de Endpoints (API Master)}
+
+A comunicação entre o \textit{frontend} e o \textit{backend} é realizada via HTTPS utilizando o padrão JSON.
+
+\subsection{Autenticação e Segurança}
+\begin{itemize}
+    \item \texttt{POST /api/auth/login}: Autenticação de usuários Master (Retorna Bearer Token);
+    \item \texttt{GET /api/auth/me}: Retorna dados do perfil logado e permissões;
+    \item \texttt{POST /api/auth/logout}: Invalida o token de acesso atual.
+\end{itemize}
+
+\subsection{Gestão de Tenants e Infraestrutura}
+\begin{itemize}
+    \item \texttt{GET /api/empresas}: Listagem paginada com filtros por status e nome;
+    \item \texttt{POST /api/empresas/migrate/\{id\}}: Dispara o \textit{job} de inicialização forçada de banco;
+    \item \texttt{GET /api/database/tables/\{uuid\}}: Lista tabelas e contagem de registros de um banco isolado;
+    \item \texttt{POST /api/database/test-connection}: Valida credenciais antes da persistência.
+\end{itemize}
+
+\section{Padrão de Resposta JSON (Standard API Response)}
+
+Todas as respostas da API seguem o esquema estruturado abaixo para facilitar o consumo pelo \textit{frontend}:
+
+\begin{lstlisting}[language=json, caption={Exemplo de Resposta de Sucesso}]
+{
+  "status": true,
+  "code": "SUCCESS",
+  "data": { ... },
+  "message": "Operação realizada com sucesso",
+  "meta": {
+    "current_page": 1,
+    "total": 150
+  }
+}
+\end{lstlisting}
+
+\section{Consultas de Telemetria SQL (Referência)}
+
+Para a monitoria dos bancos de dados, o sistema utiliza consultas de inspeção de esquema:
+
+\begin{lstlisting}[language=sql, caption={Query de Inspeção de Tamanho de Tabelas}]
+SELECT 
+    table_name AS "Tabela",
+    table_rows AS "Registros",
+    round(((data_length + index_length) / 1024 / 1024), 2) AS "Tamanho (MB)"
+FROM information_schema.TABLES
+WHERE table_schema = 'db_cliente_uuid'
+ORDER BY (data_length + index_length) DESC;
+\end{lstlisting}

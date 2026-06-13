@@ -1,0 +1,24 @@
+\babel@toc {brazil}{}\relax 
+\babel@toc {brazil}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces Visão Geral do Repositório no GitHub e Histórico de Sincronização}}{17}{figure.caption.11}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Histórico de Contribuições e Versionamento do Projeto}}{17}{figure.caption.12}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Macro Arquitetura do Ecossistema Oficina Master}}{22}{figure.caption.13}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Diagrama de Atividades: Provisionamento Automatizado de Nova Instância}}{24}{figure.caption.14}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Diagrama de Sequência: Alternância Dinâmica de Contexto de Tenant (\textit {Tenant Switcher})}}{26}{figure.caption.15}%
+\contentsline {figure}{\numberline {6}{\ignorespaces \textit {Dashboard} Administrativo: Painel Integrado de KPIs e Telemetria}}{29}{figure.caption.16}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Interface de Autenticação do Hub Master}}{30}{figure.caption.17}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Interfaces de Gestão de Usuários e Controle de Acesso}}{30}{figure.caption.18}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Criação de Usuário Master}}}{30}{subfigure.8.1}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Criação de Usuário de Empresa}}}{30}{subfigure.8.2}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Listagem Geral de Usuários Cadastrados no Sistema}}{31}{figure.caption.19}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Listagem Geral de Empresas Cadastradas}}{31}{figure.caption.20}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Monitoramento de Instâncias de Bancos de Dados}}{32}{figure.caption.21}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Visualização Consolidada de Planos e Licenças no Ecossistema}}{32}{figure.caption.22}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Listagem de Planos}}}{32}{subfigure.12.1}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Listagem de Licenças}}}{32}{subfigure.12.2}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Interfaces de Configuração Comercial e Emissão de Licenças}}{32}{figure.caption.23}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Criação de Planos}}}{32}{subfigure.13.1}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Emissão de Licença}}}{32}{subfigure.13.2}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Interface de Alteração e Ajuste de Plano de Empresa}}{33}{figure.caption.24}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Pipeline de Processamento de Requisição com Injeção de Contexto}}{37}{figure.caption.29}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Estratégia de Ramificação e Ciclo de Vida do Código}}{38}{figure.caption.31}%

@@ -1,0 +1,54 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[Bezemer e Zaidman 2010]{bezemer2010}
+\abntrefinfo{Bezemer e Zaidman}{BEZEMER; ZAIDMAN}{2010}
+{BEZEMER, C.~P.; ZAIDMAN, A. Multi-tenant software architectures: A systematic
+  literature review.
+\emph{Journal of Software: Evolution and Process}, 2010.
+Dispon{\'\i}vel em: \url{https://doi.org/10.1002/smr.445}.}
+
+\bibitem[Fowler 2002]{fowler2002}
+\abntrefinfo{Fowler}{FOWLER}{2002}
+{FOWLER, M. \emph{Patterns of Enterprise Application Architecture}. [S.l.]:
+  Addison-Wesley Professional, 2002.}
+
+\bibitem[Gamma et al. 1995]{gamma1995}
+\abntrefinfo{Gamma et al.}{GAMMA et al.}{1995}
+{GAMMA, E. et al. \emph{Design Patterns: Elements of Reusable Object-Oriented
+  Software}. [S.l.]: Addison-Wesley, 1995.}
+
+\bibitem[Krebs, Momm e Kounev 2012]{krebs2012}
+\abntrefinfo{Krebs, Momm e Kounev}{KREBS; MOMM; KOUNEV}{2012}
+{KREBS, R.; MOMM, C.; KOUNEV, S. Architectural concerns in multi-tenant saas
+  applications.
+\emph{Proceedings of the 2nd International Conference on Cloud Computing and
+  Services Science}, 2012.}
+
+\bibitem[Martin 2017]{martin2017}
+\abntrefinfo{Martin}{MARTIN}{2017}
+{MARTIN, R.~C. \emph{Clean Architecture: A Craftsman's Guide to Software
+  Structure and Design}. [S.l.]: Prentice Hall, 2017.}
+
+\bibitem[Otwell 2024]{otwell2024}
+\abntrefinfo{Otwell}{OTWELL}{2024}
+{OTWELL, T. \emph{Laravel Documentation: The PHP Framework for Web Artisans}.
+  [s.n.], 2024. Acesso em: 02 jun. 2026. Dispon{\'\i}vel em:
+  \url{https://laravel.com/docs}.}
+
+\bibitem[Pressman 2011]{pressman}
+\abntrefinfo{Pressman}{PRESSMAN}{2011}
+{PRESSMAN, R.~S. \emph{Engenharia de Software: uma abordagem profissional}. 7.
+  ed. Porto Alegre: McGraw-Hill, 2011.}
+
+\bibitem[You 2024]{you2024}
+\abntrefinfo{You}{YOU}{2024}
+{YOU, E. \emph{Vue.js 3 Documentation: The Progressive JavaScript Framework}.
+  [s.n.], 2024. Acesso em: 02 jun. 2026. Dispon{\'\i}vel em:
+  \url{https://vuejs.org/}.}
+
+\end{thebibliography}

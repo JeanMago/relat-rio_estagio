@@ -1,0 +1,83 @@
+% APÊNDICE A - Diagramas e Fluxos Técnicos Avançados
+\chapter{Diagramas e Fluxos Técnicos Avançados}
+\label{apendice:a}
+
+Este apêndice aprofunda-se na arquitetura interna e nos fluxos de trabalho que sustentam a operação do Oficina Master.
+
+\section{Pipeline de Requisição e Middleware de Contexto}
+
+A \autoref{fig:middleware_pipeline} ilustra como cada requisição é processada e como o contexto do banco de dados é injetado dinamicamente antes de atingir a lógica de negócio.
+
+\begin{figure}[htb]
+    \caption{\label{fig:middleware_pipeline}Pipeline de Processamento de Requisição com Injeção de Contexto}
+    \centering
+    \begin{tikzpicture}[node distance=1.5cm, auto, >=latex']
+        \node [draw, rectangle, fill=blue!10] (req) {HTTP Request};
+        \node [draw, rectangle, below of=req, fill=gray!10] (auth) {Middleware: Authenticate};
+        \node [draw, rectangle, below of=auth, fill=yellow!10] (tenant) {Middleware: TenantContext};
+        \node [draw, diamond, aspect=2, below of=tenant] (valid) {Tenant Válido?};
+        \node [draw, rectangle, right of=valid, node distance=4cm, fill=red!10] (abort) {403 Forbidden};
+        \node [draw, rectangle, below of=valid, node distance=2cm, fill=green!10] (logic) {Controller / Service Logic};
+        \node [draw, rectangle, below of=logic, fill=blue!10] (res) {HTTP Response};
+
+        \draw [->] (req) -- (auth);
+        \draw [->] (auth) -- (tenant);
+        \draw [->] (tenant) -- (valid);
+        \draw [->] (valid) -- node {Não} (abort);
+        \draw [->] (valid) -- node {Sim} (logic);
+        \draw [->] (logic) -- (res);
+    \end{tikzpicture}
+    \legend{Fonte: Própria do autor (2026).}
+\end{figure}
+
+\section{Arquitetura de Estado no Frontend (Pinia Stores)}
+
+O \textit{frontend} utiliza uma arquitetura descentralizada de estados. A \autoref{fig:pinia_stores} descreve a hierarquia das principais \textit{stores} utilizadas.
+
+\begin{figure}[htb]
+    \caption{\label{fig:pinia_stores}Organização das Stores Globais (Pinia)}
+    \centering
+    \begin{tikzpicture}[node distance=2cm, auto, >=latex']
+        \node [draw, rectangle, fill=orange!10, text width=3cm, align=center] (root) {Root Store};
+        \node [draw, rectangle, fill=orange!5, below of=root, xshift=-4cm] (auth) {AuthStore\\(User/Token)};
+        \node [draw, rectangle, fill=orange!5, below of=root, xshift=0cm] (tenant) {TenantStore\\(Contexto/Empresa)};
+        \node [draw, rectangle, below of=root, xshift=4cm, fill=orange!5] (ui) {UIStore\\(Temas/Notificações)};
+
+        \draw [->] (root) -- (auth);
+        \draw [->] (root) -- (tenant);
+        \draw [->] (root) -- (ui);
+    \end{tikzpicture}
+    \legend{Fonte: Própria do autor (2026).}
+\end{figure}
+
+\section{Estrutura de Diretórios do Projeto (Backend)}
+
+A organização das pastas segue o padrão de arquitetura em camadas implementado no estágio:
+
+\begin{itemize}
+    \item \texttt{app/Http/Controllers/Api}: Controladores REST;
+    \item \texttt{app/Models}: Modelos Eloquent do banco Master;
+    \item \texttt{app/Services}: Camada de negócio (Onde reside o \texttt{TenantDatabaseService});
+    \item \texttt{database/DUMPS}: Esquema SQL base para novos tenants;
+    \item \texttt{routes/api.php}: Definição de todos os endpoints administrativos.
+\end{itemize}
+
+\section{Fluxo de Trabalho GitFlow}
+
+A \autoref{fig:gitflow_diagram} resume a estratégia de ramificação utilizada para garantir a estabilidade do sistema Oficina Master em produção.
+
+\begin{figure}[htb]
+    \caption{\label{fig:gitflow_diagram}Estratégia de Ramificação e Ciclo de Vida do Código}
+    \centering
+    \begin{tikzpicture}[node distance=1.5cm, auto, >=latex']
+        \node (main) [draw, rectangle, fill=blue!20] {Production (Main)};
+        \node (staging) [draw, rectangle, fill=green!20, below of=main] {Staging (Develop)};
+        \node (feat) [draw, rectangle, fill=yellow!20, below of=staging] {Feature Branches};
+
+        \draw [<-] (main) -- node[right] {Release} (staging);
+        \draw [<-] (staging) -- node[right] {Pull Request + Review} (feat);
+        \draw [->] (staging) -- node[left] {Hotfix} (main);
+    \end{tikzpicture}
+    \legend{Fonte: Própria do autor (2026).}
+\end{figure}
+  

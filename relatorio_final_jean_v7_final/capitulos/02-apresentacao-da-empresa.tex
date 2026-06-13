@@ -1,0 +1,61 @@
+% ==============================================================================
+% CAPÍTULO 2 - APRESENTAÇÃO DA EMRESA
+% ==============================================================================
+
+\chapter{Apresentação da Empresa}
+\label{ch:apresentacao-empresa}
+
+A FK Oficina é uma organização de tecnologia de vanguarda, especializada no desenvolvimento e na sustentação de soluções de gestão empresarial sob o modelo \textit{Software as a Service} (\textit{SaaS}). Com sede estratégica em Augusto Pestana, no Noroeste do Rio Grande do Sul, a empresa atua como um parceiro tecnológico essencial para prestadores de serviços técnicos em todo o território nacional. O foco primordial da organização reside nos setores automotivo e de assistência técnica em eletrônicos, onde a empresa destaca-se pela capacidade singular de traduzir necessidades operacionais densas em fluxos de trabalho simplificados e automatizados.
+
+%-------------------------------------------------
+% Histórico e Evolução Estratégica
+%-------------------------------------------------
+\section{Histórico e Evolução Estratégica}
+\label{sec:historico}
+
+A trajetória da FK Oficina é um exemplo notável de inovação pragmática impulsionada pela vivência real do mercado. A organização originou-se no segmento de reparação de eletrônicos, operando inicialmente como uma assistência técnica convencional. Durante esse período, a equipe fundadora enfrentou diretamente os desafios sistêmicos do setor: o controle impreciso de ordens de serviço, a dificuldade na gestão de componentes sensíveis e a complexidade na comunicação com o cliente final. Diante da inexistência de softwares no mercado que atendessem satisfatoriamente a essas dores específicas, a equipe decidiu desenvolver sua própria solução de gestão.
+
+O primeiro sistema concebido serviu como um "laboratório vivo", onde cada funcionalidade era exaustivamente testada sob o rigor do cotidiano operacional da própria empresa. Com a validação interna do modelo e a percepção de que outros empresários do setor enfrentavam obstáculos idênticos, a FK Oficina iniciou um processo de expansão estratégica. A solução evoluiu rapidamente de um software de uso local para um ecossistema complexo em nuvem, incorporando módulos de \textit{ERP} (\textit{Enterprise Resource Planning}), emissão de documentos fiscais eletrônicos em conformidade com as diversas SEFAZ estaduais e municipais, e integração nativa com múltiplos meios de pagamento e TEF. Atualmente, a FK Oficina não apenas fornece ferramentas de software, mas sustenta uma infraestrutura tecnológica robusta que apoia o crescimento e a profissionalização de centenas de empresas em todo o Brasil.
+
+%-------------------------------------------------
+% Missão, Visão e Valores Organizacionais
+%-------------------------------------------------
+\section{Missão, Visão e Valores Organizacionais}
+\label{sec:missao-visao-valores}
+
+A identidade organizacional da FK Oficina é pautada por um compromisso inegociável com a excelência técnica e o sucesso sustentável de seus clientes:
+
+\begin{itemize}
+    \item \textbf{Missão:} Empoderar prestadores de serviços técnicos através de ferramentas de gestão inteligentes e resilientes, removendo a complexidade burocrática e permitindo que o foco dos nossos parceiros permaneça na qualidade técnica da entrega do serviço.
+    \item \textbf{Visão:} Consolidar-se como a principal referência nacional e líder de mercado em ecossistemas \textit{SaaS} para oficinas e assistências técnicas, sendo reconhecida pela inovação constante, pela estabilidade de seus sistemas e pela transparência radical em sua infraestrutura.
+    \item \textbf{Valores:} Pragmatismo tecnológico, segurança absoluta de dados, transparência no relacionamento com o ecossistema, cultura de aprendizado contínuo e uma busca incessante pela simplicidade na resolução de problemas complexos.
+\end{itemize}
+
+%-------------------------------------------------
+% Estrutura Organizacional e Filosofia Tecnológica
+%-------------------------------------------------
+\section{Estrutura e Ecossistema Tecnológico}
+\label{sec:estrutura-tecnologica}
+
+A estrutura da FK Oficina é desenhada para suportar cenários de alta disponibilidade, escalabilidade horizontal e segurança de nível corporativo. Sob a liderança técnica de Eduardo Froner, a equipe de desenvolvimento opera sob uma filosofia de modernização constante e dívida técnica controlada, garantindo que o ecossistema acompanhe as rápidas evoluções do mercado financeiro e as frequentes mudanças regulatórias tributárias do país.
+
+\subsection{Arquitetura de Produto e Filosofia \textit{Multi-tenancy}}
+
+O diferencial competitivo e a base da estabilidade da FK Oficina residem em sua arquitetura \textit{multi-tenant} baseada em isolamento de banco de dados (\textit{database-per-tenant}). Diferente de soluções concorrentes que compartilham uma única base de dados lógica entre todos os clientes — o que pode levar a vazamento de dados e degradação mútua de performance — a FK Oficina garante que cada cliente possua sua própria instância lógica e física de dados. Esta abordagem proporciona:
+\begin{itemize}
+    \item \textbf{Segurança de Dados:} Isolamento total de informações sensíveis, em conformidade com as melhores práticas de privacidade e segurança da informação;
+    \item \textbf{Performance Previsível:} Recursos computacionais e de armazenamento que podem ser escalonados de forma independente por cliente;
+    \item \textbf{Flexibilidade Operacional:} Capacidade de realizar manutenções, \textit{backups} e migrações de forma granular, sem impactar a disponibilidade da rede global.
+\end{itemize}
+
+\subsection{Stack Tecnológica e Ferramental de Desenvolvimento}
+
+Para sustentar e evoluir essa arquitetura complexa, a empresa emprega uma combinação criteriosamente selecionada de tecnologias de ponta, as quais foram o objeto central de estudo e aplicação durante este estágio:
+\begin{itemize}
+    \item \textbf{Backend:} PHP 8.2+ utilizando o \textit{framework} \textit{Laravel} 12, com foco absoluto em tipagem estrita, injeção de dependências e arquitetura baseada em domínios;
+    \item \textbf{Frontend:} \textit{Vue.js} 3 integrando \textit{Pinia} para gestão de estado reativo e \textit{Vite} para fluxos de build ultra-rápidos, resultando em \textit{Single Page Applications} (\textit{SPA}) de alta performance;
+    \item \textbf{Infraestrutura de Dados:} Utilização estratégica de \textit{PostgreSQL} e \textit{MySQL}, gerenciados por uma camada de abstração dinâmica capaz de lidar com a orquestração de centenas de conexões simultâneas;
+    \item \textbf{Integrações Estratégicas:} Consumo de sistemas de telemetria para monitoramento proativo e serviços auxiliares de suporte ao ecossistema.
+\end{itemize}
+
+A FK Oficina posiciona-se, portanto, não apenas como uma \textit{software house}, mas como um motor de transformação digital e eficiência operacional para o setor de serviços, onde a tecnologia é o meio fundamental para alcançar a excelência no atendimento ao cliente final.
