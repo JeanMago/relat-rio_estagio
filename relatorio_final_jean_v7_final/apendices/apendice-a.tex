@@ -39,9 +39,9 @@ O \textit{frontend} utiliza uma arquitetura descentralizada de estados. A \autor
     \centering
     \begin{tikzpicture}[node distance=2cm, auto, >=latex']
         \node [draw, rectangle, fill=orange!10, text width=3cm, align=center] (root) {Root Store};
-        \node [draw, rectangle, fill=orange!5, below of=root, xshift=-4cm] (auth) {AuthStore\\(User/Token)};
-        \node [draw, rectangle, fill=orange!5, below of=root, xshift=0cm] (tenant) {TenantStore\\(Contexto/Empresa)};
-        \node [draw, rectangle, below of=root, xshift=4cm, fill=orange!5] (ui) {UIStore\\(Temas/Notificações)};
+        \node [draw, rectangle, fill=orange!5, below of=root, xshift=-4cm, text width=3.8cm, align=center] (auth) {AuthStore\\(User/Token)};
+        \node [draw, rectangle, fill=orange!5, below of=root, xshift=0cm, text width=3.8cm, align=center] (tenant) {TenantStore\\(Contexto/Empresa)};
+        \node [draw, rectangle, below of=root, xshift=4cm, fill=orange!5, text width=3.8cm, align=center] (ui) {UIStore\\(Temas/Notificações)};
 
         \draw [->] (root) -- (auth);
         \draw [->] (root) -- (tenant);
@@ -80,4 +80,8 @@ A \autoref{fig:gitflow_diagram} resume a estratégia de ramificação utilizada 
     \end{tikzpicture}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
-  
+
+\section{Repositório do Projeto}
+\label{apx:repositorio}
+
+O código-fonte integral desenvolvido para o projeto Oficina Master está hospedado em repositório privado no GitHub. O controle de versão detalhado, contendo todos os commits e histórico de ramificações discutidos no corpo deste trabalho, pode ser consultado pelos avaliadores por meio do endereço e permissões fornecidas junto a este documento.

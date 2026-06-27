@@ -176,7 +176,59 @@ que nenhuma instância parcialmente inicializada persista no ecossistema.
 \begin{figure}[htb]
     \caption{\label{fig:fluxo_provisionamento}Diagrama de Atividades: Provisionamento Automatizado de Nova Instância}
     \centering
-    \includegraphics[width=0.7\textwidth]{figuras/05-desenvolvimento/diagrama_atividades_provisionamento.png}
+    \begin{tikzpicture}[
+        node distance=1.4cm,
+        auto,
+        block/.style={draw=blue!60, fill=blue!5, rectangle, text width=7cm, align=left, minimum height=0.9cm, rounded corners=4pt, font=\small},
+        decision/.style={draw=orange!60, fill=orange!5, diamond, aspect=2.2, text width=2.2cm, align=center, minimum height=0.8cm, font=\small},
+        failed/.style={draw=red!60, fill=red!5, rectangle, text width=4.5cm, align=center, minimum height=0.9cm, rounded corners=4pt, font=\small},
+        success/.style={draw=green!60, fill=green!5, rectangle, text width=4.5cm, align=center, minimum height=1.1cm, rounded corners=4pt, font=\small},
+        startstop/.style={draw=black!50, fill=gray!10, rectangle, minimum height=0.7cm, text width=3.5cm, align=center, rounded corners=8pt, font=\small\bfseries},
+        line/.style={draw=black!70, -latex', thick}
+    ]
+        % Nodes
+        \node [startstop] (start) {Início: Requisição};
+        \node [block, below=0.6cm of start] (step1) {\textbf{1. Criação do Banco de Dados}\\Executa \texttt{CREATE DATABASE} no servidor de banco de dados};
+        \node [decision, below=0.6cm of step1] (check1) {Sucesso?};
+        
+        \node [block, below=0.6cm of check1] (step2) {\textbf{2. Configuração de Conexão}\\Injeta credenciais de acesso via \texttt{Config::set('database...')}};
+        \node [decision, below=0.6cm of step2] (check2) {Sucesso?};
+        
+        \node [block, below=0.6cm of check2] (step3) {\textbf{3. Importação do Dump Inicial}\\Injeta esquema e tabelas padrão via dump SQL};
+        \node [decision, below=0.6cm of step3] (check3) {Sucesso?};
+        
+        \node [block, below=0.6cm of check3] (step4) {\textbf{4. Injeção do Administrador}\\Cria registro de usuário gestor inicial no tenant};
+        \node [decision, below=0.6cm of step4] (check4) {Sucesso?};
+        
+        \node [success, below=0.8cm of check4] (end) {\textbf{Provisionamento Concluído}\\Instância configurada e ativa};
+        \node [startstop, below=0.6cm of end] (end_state) {Fim: Sucesso};
+        
+        \node [failed, right=2.8cm of check2, yshift=1.2cm] (rollback) {\textbf{Compensação (Rollback)}\\Remove banco de dados criado e limpa metadados do orquestrador};
+        \node [startstop, below=0.8cm of rollback] (fail_end) {Fim: Erro};
+
+        % Connections
+        \draw [line] (start) -- (step1);
+        \draw [line] (step1) -- (check1);
+        
+        \draw [line] (check1) -- node[left] {Sim} (step2);
+        \draw [line] (check1.east) -- node[above] {Não} ++(1.5,0) |- (rollback.west);
+        
+        \draw [line] (step2) -- (check2);
+        \draw [line] (check2) -- node[left] {Sim} (step3);
+        \draw [line] (check2.east) -- node[above] {Não} (rollback.west);
+        
+        \draw [line] (check3) -- node[left] {Sim} (step4);
+        \draw [line] (check3.east) -- node[above] {Não} ++(1.5,0) |- (rollback.west);
+        
+        \draw [line] (step3) -- (check3);
+        
+        \draw [line] (step4) -- (check4);
+        \draw [line] (check4) -- node[left] {Sim} (end);
+        \draw [line] (check4.east) -- node[above] {Não} ++(1.5,0) |- (rollback.west);
+        
+        \draw [line] (end) -- (end_state);
+        \draw [line] (rollback) -- (fail_end);
+    \end{tikzpicture}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
 
@@ -271,7 +323,108 @@ apenas os dados do tenant selecionado.
 \begin{figure}[htb]
     \caption{\label{fig:fluxo_conexao}Diagrama de Sequência: Alternância Dinâmica de Contexto de Tenant (\textit{Tenant Switcher})}
     \centering
-    \includegraphics[width=0.9\textwidth]{figuras/05-desenvolvimento/diagrama_sequencia_tenant.png}
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        auto,
+        actor/.style={draw=black!70, rectangle, fill=gray!5, text width=3.8cm, align=center, minimum height=1.0cm, rounded corners=3pt, font=\small\bfseries},
+        lifeline/.style={draw, gray!60, thick},
+        msg/.style={draw=black!90, -latex', thick},
+        reply/.style={draw=black!70, -latex', dashed, thick},
+        scale=0.95
+    ]
+        % Entities (lifeline headers - top)
+        \node [actor] (ui_top) {UI Master\\(Administrador)};
+        \node [actor, right=1.8cm of ui_top] (laravel_top) {Sistema Laravel\\(Service)};
+        \node [actor, right=2.5cm of laravel_top] (db_top) {Banco de Dados do Tenant\\(Tenant DB)};
+
+        % Coordinates for vertical lines alignment
+        \coordinate (ui_x) at (ui_top.south);
+        \coordinate (laravel_x) at (laravel_top.south);
+        \coordinate (db_x) at (db_top.south);
+
+        % Y-coordinates
+        \def\yStart{-1.0}
+        \def\yPurge{-1.8}
+        \def\yConfig{-3.0}
+        \def\yTest{-4.4}
+        \def\yValidate{-5.0}
+        \def\yAltStart{-6.2}
+        \def\yFailErr{-6.8}
+        \def\yFailResp{-7.6}
+        \def\yAltSep{-8.4}
+        \def\ySuccConfirm{-9.0}
+        \def\ySuccLoad{-9.8}
+        \def\ySuccResp{-11.2}
+        \def\yAltEnd{-12.0}
+        \def\yBot{-12.6}
+
+        % Lifeline ends
+        \coordinate (ui_bot) at (ui_x |- 0,\yBot);
+        \coordinate (laravel_bot) at (laravel_x |- 0,\yBot);
+        \coordinate (db_bot) at (db_x |- 0,\yBot);
+
+        % Lifeline headers - bottom
+        \node [actor, below=12.6cm of ui_top] (ui_btn) {UI Master\\(Administrador)};
+        \node [actor, below=12.6cm of laravel_top] (laravel_btn) {Sistema Laravel\\(Service)};
+        \node [actor, below=12.6cm of db_top] (db_btn) {Banco de Dados do Tenant\\(Tenant DB)};
+
+        % Draw Lifelines
+        \draw [lifeline] (ui_x) -- (ui_bot);
+        \draw [lifeline] (laravel_x) -- (laravel_bot);
+        \draw [lifeline] (db_x) -- (db_bot);
+
+        % Activation bars
+        % Laravel: Blue from \yStart to \ySuccConfirm, Purple from \ySuccConfirm to \ySuccResp
+        \draw [fill=blue!20, draw=blue!50] ([xshift=-0.08cm]laravel_x |- 0,\yStart) rectangle ([xshift=0.08cm]laravel_x |- 0,\ySuccConfirm);
+        \draw [fill=purple!20, draw=purple!50] ([xshift=-0.08cm]laravel_x |- 0,\ySuccConfirm) rectangle ([xshift=0.08cm]laravel_x |- 0,\ySuccResp);
+        
+        % Tenant DB: Green from \yTest to \ySuccConfirm
+        \draw [fill=green!20, draw=green!50] ([xshift=-0.08cm]db_x |- 0,\yTest) rectangle ([xshift=0.08cm]db_x |- 0,\ySuccConfirm);
+
+        % Messages
+        % 1. Solicitar Troca de Contexto de Tenant (ID)
+        \draw [msg] (ui_x |- 0,\yStart) -- node [above, scale=0.8, midway] {Solicitar Troca de Contexto de Tenant (ID)} (laravel_x |- 0,\yStart);
+
+        % 1. Purgar Conexão Existente (DB::purge('tenant'))
+        \draw [msg] (laravel_x |- 0,\yPurge) -- ++(1.0,0) coordinate (p1) |- (laravel_x |- 0,\yPurge - 0.8);
+        \node [right, scale=0.75, align=left] at (p1 |- 0,\yPurge - 0.4) {Preparar Novo Contexto\\1. Purgar Conexão Existente\\(DB::purge('tenant'))};
+
+        % 2. Definir Nova Configuração (Config::set(config))
+        \draw [msg] (laravel_x |- 0,\yConfig) -- ++(1.0,0) coordinate (p2) |- (laravel_x |- 0,\yConfig - 0.8);
+        \node [right, scale=0.75, align=left] at (p2 |- 0,\yConfig - 0.4) {2. Definir Nova Configuração\\(Config::set(config))};
+
+        % Testar e Estabelecer Nova Conexão
+        \draw [msg] (laravel_x |- 0,\yTest) -- node [above, scale=0.8, midway] {Testar e Estabelecer Nova Conexão} (db_x |- 0,\yTest);
+
+        % Validar Conexão
+        \draw [msg] (db_x |- 0,\yValidate) -- ++(1.0,0) coordinate (p3) |- (db_x |- 0,\yValidate - 0.8);
+        \node [right, scale=0.75] at (p3 |- 0,\yValidate - 0.4) {Validar Conexão};
+
+        % alt Box
+        \draw [draw=black, thick] ([xshift=-0.8cm]ui_x |- 0,\yAltStart) rectangle ([xshift=0.8cm]db_x |- 0,\yAltEnd);
+        
+        % alt Label Box
+        \draw [draw=black, fill=white, thick] 
+            ([xshift=-0.8cm]ui_x |- 0,\yAltStart) -- ++(0.7, 0) -- ++(0, -0.35) -- ++(-0.2, -0.1) -- ++(-0.5, 0) -- cycle;
+        \node [scale=0.8, font=\bfseries] at ([xshift=-0.45cm, yshift=-0.22cm]ui_x |- 0,\yAltStart) {alt};
+
+        % alternative 1: Failure
+        \draw [reply] (db_x |- 0,\yFailErr) -- node [above, scale=0.8, midway] {Erro de Conexão} (laravel_x |- 0,\yFailErr);
+        \draw [reply] (laravel_x |- 0,\yFailResp) -- node [above, scale=0.8, midway] {Falha na Troca de Contexto} (ui_x |- 0,\yFailResp);
+
+        % alt Separator Dotted Line
+        \draw [dashed, gray!80, thick] ([xshift=-0.8cm]ui_x |- 0,\yAltSep) -- ([xshift=0.8cm]db_x |- 0,\yAltSep);
+
+        % alternative 2: Success
+        \draw [reply] (db_x |- 0,\ySuccConfirm) -- node [above, scale=0.8, midway] {Conexão Confirmada} (laravel_x |- 0,\ySuccConfirm);
+        
+        % 3. Carregar Dados Iniciais
+        \draw [msg] (laravel_x |- 0,\ySuccLoad) -- ++(1.0,0) coordinate (p4) |- (laravel_x |- 0,\ySuccLoad - 0.8);
+        \node [right, scale=0.75, align=left] at (p4 |- 0,\ySuccLoad - 0.4) {3. Carregar Dados Iniciais};
+            
+        \draw [reply] (laravel_x |- 0,\ySuccResp) -- node [above, scale=0.8, midway] {Resposta de Sucesso (Contexto Trocado)} (ui_x |- 0,\ySuccResp);
+
+    \end{tikzpicture}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
 
@@ -396,7 +549,7 @@ do ecossistema.
 \begin{figure}[htb]
     \caption{\label{fig:dashboard_interface}\textit{Dashboard} Administrativo: Painel Integrado de KPIs e Telemetria}
     \centering
-    \includegraphics[width=0.8\textwidth]{figuras/05-desenvolvimento/daschboard.png}
+    \includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/daschboard.png}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
 
@@ -444,15 +597,15 @@ específicos de cada oficina parceira (\autoref{fig:criacao_usuario_empresa}).
 \begin{figure}[htb]
     \caption{\label{fig:login_master}Interface de Autenticação do Hub Master}
     \centering
-    \includegraphics[width=0.6\textwidth]{figuras/05-desenvolvimento/aceso_user.png}
+    \includegraphics[width=0.85\textwidth]{figuras/05-desenvolvimento/aceso_user.png}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
 
 \begin{figure}[htb]
     \centering
-    \subfloat[Criação de Usuário Master]{\includegraphics[width=0.45\textwidth]{figuras/05-desenvolvimento/criacao_usuario_master.png}\label{fig:criacao_usuario_master}}
-    \hfill
-    \subfloat[Criação de Usuário de Empresa]{\includegraphics[width=0.45\textwidth]{figuras/05-desenvolvimento/criacao_usuario_empresa.png}\label{fig:criacao_usuario_empresa}}
+    \subfloat[Criação de Usuário Master]{\includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/criacao_usuario_master.png}\label{fig:criacao_usuario_master}}
+    \\
+    \subfloat[Criação de Usuário de Empresa]{\includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/criacao_usuario_empresa.png}\label{fig:criacao_usuario_empresa}}
     \caption{Interfaces de Gestão de Usuários e Controle de Acesso}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
@@ -460,7 +613,7 @@ específicos de cada oficina parceira (\autoref{fig:criacao_usuario_empresa}).
 \begin{figure}[htb]
     \caption{\label{fig:lista_usuarios}Listagem Geral de Usuários Cadastrados no Sistema}
     \centering
-    \includegraphics[width=0.8\textwidth]{figuras/05-desenvolvimento/lista de usuarios cadastrados.png}
+    \includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/lista de usuarios cadastrados.png}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
 
@@ -477,31 +630,31 @@ os recursos disponíveis para cada oficina.
 \begin{figure}[htb]
     \caption{\label{fig:lista_tenants_interface}Listagem Geral de Empresas Cadastradas}
     \centering
-    \includegraphics[width=0.8\textwidth]{figuras/05-desenvolvimento/lista_empresas.png}
+    \includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/lista_empresas.png}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
 
 \begin{figure}[htb]
     \caption{\label{fig:lista_bancos}Monitoramento de Instâncias de Bancos de Dados}
     \centering
-    \includegraphics[width=0.8\textwidth]{figuras/05-desenvolvimento/lista_bancos.png}
+    \includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/lista_bancos.png}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
 
 \begin{figure}[htb]
     \centering
-    \subfloat[Listagem de Planos]{\includegraphics[width=0.45\textwidth]{figuras/05-desenvolvimento/listas_planos.png}\label{fig:listas_planos}}
-    \hfill
-    \subfloat[Listagem de Licenças]{\includegraphics[width=0.45\textwidth]{figuras/05-desenvolvimento/listas_licenças.png}\label{fig:listas_licenças}}
+    \subfloat[Listagem de Planos]{\includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/listas_planos.png}\label{fig:listas_planos}}
+    \\
+    \subfloat[Listagem de Licenças]{\includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/listas_licenças.png}\label{fig:listas_licenças}}
     \caption{Visualização Consolidada de Planos e Licenças no Ecossistema}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
 
 \begin{figure}[htb]
     \centering
-    \subfloat[Criação de Planos]{\includegraphics[width=0.45\textwidth]{figuras/05-desenvolvimento/criacao_plano.png}\label{fig:criacao_plano}}
-    \hfill
-    \subfloat[Emissão de Licença]{\includegraphics[width=0.45\textwidth]{figuras/05-desenvolvimento/criacao_licença.png}\label{fig:criacao_licença}}
+    \subfloat[Criação de Planos]{\includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/criacao_plano.png}\label{fig:criacao_plano}}
+    \\
+    \subfloat[Emissão de Licença]{\includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/criacao_licença.png}\label{fig:criacao_licença}}
     \caption{Interfaces de Configuração Comercial e Emissão de Licenças}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
@@ -509,7 +662,7 @@ os recursos disponíveis para cada oficina.
 \begin{figure}[htb]
     \caption{\label{fig:alteracao_plano_interface}Interface de Alteração e Ajuste de Plano de Empresa}
     \centering
-    \includegraphics[width=0.8\textwidth]{figuras/05-desenvolvimento/alteração_plano_empresa.png}
+    \includegraphics[width=0.95\textwidth]{figuras/05-desenvolvimento/alteração_plano_empresa.png}
     \legend{Fonte: Própria do autor (2026).}
 \end{figure}
 
